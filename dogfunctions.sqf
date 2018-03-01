@@ -146,16 +146,17 @@ _dogSeek =
         _unit setvariable ["seek","true"];
         _dog    = _unit getvariable "dog";
         _play   = (_this select 3) select 1;
-        hint "Jessie, seek!!";
+        hint "Jessie, seek!";
         _unit setvariable ["order","active"];
         _unit setvariable ["step","go"];
         _dog = _unit getvariable "dog";
         _side = east;
         _radius = 1000;
- 
+   
         _nearestunits = nearestObjects [_dog,["Man"],_radius];
    
         _nearestunitofside = [];
+ 
         if(_side countSide _nearestunits > 0) then
         {
         _sound = ["dog_one",_dog, 20] spawn _play;
@@ -169,24 +170,13 @@ _dogSeek =
         } else {
         _sound = ["dog_ruff",_dog, 20] spawn _play;
         };
-        seek = true;
-        while {seek} do
-        {
-        if ((_dog distance (_nearestunitofside select 0))>10) then
+       
+        while {(_dog distance (_nearestunitofside select 0))>10} do
         {
             sleep 0.5;
             _dog switchMove "Dog_Sprint";
             _dog moveTo getpos (_nearestunitofside select 0);
             sleep 1;
-            hint format["%1\n%2",_unit getvariable "order", _unit];
-        } else {
-            seek = false;
-        };
-       
-        if ((_unit getvariable "order")=="idle") then
-        {
-            seek = false;
-        };
         };
        
         _dog switchMove "Dog_Sit";
@@ -251,7 +241,6 @@ _dogStop =
         _dog switchMove "Dog_Sit";
         _unit setvariable ["order","idle"];
         _unit setvariable ["step","go"];
-        seek = false;
     };
  
 _dogGrowl =
