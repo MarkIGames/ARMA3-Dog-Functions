@@ -15,7 +15,7 @@ _setVariable =
         _unit setvariable ["order","nil"];
         _unit setvariable ["step","wait"];
         _unit setvariable ["action","true"];
-        _unit setvariable ["seek","false"];
+        /*_unit setvariable ["seek","false"];*/
     };
  
 _dogRevive =
@@ -82,11 +82,11 @@ _dogWhistle =
                 _side = east;
  
                
-                if (((side _firer)==east)&&((_unit1 getvariable "seek")=="true")) then
+                if (((side _firer)==east)/*&&((_unit1 getvariable "seek")=="true")*/) then
                     {
                         _unit1 setVariable ["order","idle"];
                         _unit1 setVariable ["step","go"];
-                        _unit1 setVariable ["seek","false"];
+                        /*_unit1 setVariable ["seek","false"];*/
                         _dog switchMove "Dog_Sprint";
                         _dog moveTo (getpos _unit1);
                         _sound = ["dog_whine",_dog, 20] spawn play;
@@ -141,6 +141,7 @@ _dogFollow =
  
 _dogSeek =
     {
+	/*
         _unit   = (_this select 3) select 0;
         _unit setvariable ["follow",'false'];
         _unit setvariable ["seek","true"];
@@ -181,8 +182,9 @@ _dogSeek =
        
         _dog switchMove "Dog_Sit";
  
-        _unit setvariable ["seek","false"];
+        /*_unit setvariable ["seek","false"];*/
         _sound = ["dog_ruff",_dog, 20] spawn _play;
+		*/
  
     };
  
@@ -235,7 +237,7 @@ _dogStop =
         _dog    = _unit getVariable "dog";
         _play   = (_this select 3) select 1;
  
-        _unit setvariable ["seek","false"];
+        /*_unit setvariable ["seek","false"];*/
         hint "Jessie, Hold!";
         _unit setvariable ["follow",'false'];
         _dog switchMove "Dog_Sit";
@@ -254,11 +256,16 @@ _dogGrowl =
             _timer  = round(random 5);
             _timer  = _timer + 5;
             _objs   = nearestobjects [_dog,["Man"], 50];
+			_objs2  = nearestobjects [_dog,["Man"], 25];
+			_objs3  = nearestobjects [_dog,["Man"], 5];
  
             {
             if ((side _x)!=_side) then
                 {
-                _objs = _objs - [_x];
+                _objs  = _objs - [_x];
+				_objs2 = _objs2 - [_x];
+				_objs3 = _objs3 - [_x];
+	
                 };
             } foreach _objs;
            
@@ -266,8 +273,22 @@ _dogGrowl =
                 {
                     _play = _this select 1;
                     _sound = ["dog_growl",_dog, 11] spawn _play;
-                };
-               
+                } else {
+              
+					if ((count _objs2)>0) then
+						{
+							_play = _this select 1;
+							_sound = ["dog_whine",_dog, 11] spawn _play;
+						} else {
+					  
+							if ((count _objs3)>0) then
+								{
+									_play = _this select 1;
+									_sound = ["dog_whine",_dog, 11] spawn _play;
+								};	
+						}
+				}				
+			  
             sleep _timer;
             _dog = _unit getvariable "dog";
            
@@ -330,7 +351,7 @@ _actions =
     _unit           = _this select 0;
     _dogWhistle     = _this select 1;
     _dogFollow      = _this select 2;
-    _dogSeek        = _this select 3;
+    /*_dogSeek        = _this select 3;*/
     _dogHide        = _this select 4;
     _dogHeel        = _this select 5;
     _dogStop        = _this select 6;
@@ -362,7 +383,7 @@ _actions =
         if ((_unit getvariable "order") == "idle") then
             {
                 _follow = _unit addAction ["<t color = '#ffff00'>Follow</t>", _dogFollow, [_unit,_playSound]];
-                _find = _unit addAction ["<t color = '#ffff00'>Seek</t>", _dogSeek, [_unit,_playSound]];
+                /*_find = _unit addAction ["<t color = '#ffff00'>Seek</t>", _dogSeek, [_unit,_playSound]];*/
                 _rest = _unit addAction ["<t color = '#ff0000'>Hide!</t>", _dogHide, [_unit,_playSound]];
                 _heel = _unit addAction ["<t color = '#ffff00'>Heel</t>", _dogHeel, [_unit,_playSound]];
                 _unit setvariable ["step","wait"];
@@ -389,4 +410,5 @@ _actions =
     };
  
 _var1 = [_unit] call _setVariable;
-_loop = [_unit,_dogWhistle,_dogFollow,_dogSeek,_dogHide,_dogHeel,_dogStop,_dogGrowl,_playSound,_dogReturnIdle, _dogVehicle] call _actions;
+/*_loop = [_unit,_dogWhistle,_dogFollow,_dogSeek,_dogHide,_dogHeel,_dogStop,_dogGrowl,_playSound,_dogReturnIdle, _dogVehicle] call _actions;*/
+_loop = [_unit,_dogWhistle,_dogFollow,_dogHide,_dogHeel,_dogStop,_dogGrowl,_playSound,_dogReturnIdle, _dogVehicle] call _actions;
