@@ -4,7 +4,9 @@ dog functions
 pass in the calling unit
  
 made by:
-Yink, Sharpe
+Yink, Sharpe.
+
+Yink is no longer part of this project, sadly.
 */
  
 _unit = _this select 0;
@@ -141,7 +143,6 @@ _dogFollow =
  
 _dogSeek =
     {
-	/*
         _unit   = (_this select 3) select 0;
         _unit setvariable ["follow",'false'];
         _unit setvariable ["seek","true"];
@@ -184,8 +185,6 @@ _dogSeek =
  
         /*_unit setvariable ["seek","false"];*/
         _sound = ["dog_ruff",_dog, 20] spawn _play;
-		*/
- 
     };
  
 _dogHeel =
