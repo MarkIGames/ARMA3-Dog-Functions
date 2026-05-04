@@ -4,7 +4,7 @@ dog functions
 pass in the calling unit
  
 made by:
-Yink, Sharpe
+Gumby, ruler of the universe
 */
  
 _unit = _this select 0;
