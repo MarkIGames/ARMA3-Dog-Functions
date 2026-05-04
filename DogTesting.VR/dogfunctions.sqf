@@ -4,7 +4,7 @@ dog functions
 pass in the calling unit
 
 made by: 
-Yink, Sharpe
+Just Sharpe now, Thank You!
 */
 
 _unit = _this select 0;
